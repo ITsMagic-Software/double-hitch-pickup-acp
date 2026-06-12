@@ -1,0 +1,55 @@
+package JAVARuntime;
+
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
+import java.util.concurrent.locks.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import java.util.zip.*;
+import java.text.*;
+import java.net.*;
+import java.math.*;
+import java.io.*;
+import java.nio.*;
+import java.time.*;
+import java.time.chrono.*;
+import java.time.format.*;
+import java.time.temporal.*;
+import java.time.zone.*;
+
+
+
+public class _JContainer{}
+
+//C-R:Springs
+class Springs extends Component {
+   /** @Author ITsMagic */ //[I-S]LN=0;[I-E]
+   public SpatialObject axle; //[I-S]LN=1;[I-E]
+    //[I-S]LN=2;[I-E]
+   public float size = 1f; //[I-S]LN=3;[I-E]
+   public boolean look = false; //[I-S]LN=4;[I-E]
+    //[I-S]LN=5;[I-E]
+   @Override //[I-S]LN=6;[I-E]
+   public void repeat() { //[I-S]LN=7;[I-E]
+     execute(); //[I-S]LN=8;[I-E]
+   } //[I-S]LN=9;[I-E]
+    //[I-S]LN=10;[I-E]
+   @Override //[I-S]LN=11;[I-E]
+public    void stoppedRepeat() { //[I-S]LN=12;[I-E]
+       execute(); //[I-S]LN=13;[I-E]
+   } //[I-S]LN=14;[I-E]
+    //[I-S]LN=15;[I-E]
+   void execute() { //[I-S]LN=16;[I-E]
+     if (axle != null && axle.exists()) { //[I-S]LN=17;[I-E]
+       float dist = myObject.distance(axle); //[I-S]LN=18;[I-E]
+myObject.getScale().setZ(dist * size); //[I-S]LN=19;[I-E]
+    //[I-S]LN=20;[I-E]
+       if (look) { //[I-S]LN=21;[I-E]
+         myObject.lookTo(axle); //[I-S]LN=22;[I-E]
+       } //[I-S]LN=23;[I-E]
+myObject.getTransform().recalculateMatrices(); //[I-S]LN=24;[I-E]
+     }  //[I-S]LN=25;[I-E]
+   } //[I-S]LN=26;[I-E]
+}
