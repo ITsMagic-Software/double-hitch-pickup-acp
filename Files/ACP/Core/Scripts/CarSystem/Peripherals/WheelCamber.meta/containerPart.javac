@@ -1,0 +1,88 @@
+package JAVARuntime;
+
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
+import java.util.concurrent.locks.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import java.util.zip.*;
+import java.text.*;
+import java.net.*;
+import java.math.*;
+import java.io.*;
+import java.nio.*;
+import java.time.*;
+import java.time.chrono.*;
+import java.time.format.*;
+import java.time.temporal.*;
+import java.time.zone.*;
+
+
+
+public class _JContainer{}
+
+//C-R:WheelCamber
+class WheelCamber extends Component {
+   /** @Author ITsMagic */ //[I-S]LN=0;[I-E]
+   @AutoWired  //[I-S]LN=1;[I-E]
+   private VehicleWheel vw; //[I-S]LN=2;[I-E]
+    //[I-S]LN=3;[I-E]
+   public float restCamber = 0; //[I-S]LN=4;[I-E]
+   public float upCamber = 20; //[I-S]LN=5;[I-E]
+   public float downCamber = 10; //[I-S]LN=6;[I-E]
+   public float upDeadZone = 0.3f; //[I-S]LN=7;[I-E]
+   public float downDeadZone = 0f; //[I-S]LN=8;[I-E]
+    //[I-S]LN=9;[I-E]
+   private boolean invertSide; //[I-S]LN=10;[I-E]
+   /// Run only once //[I-S]LN=11;[I-E]
+   @Override //[I-S]LN=12;[I-E]
+   public void start() { //[I-S]LN=13;[I-E]
+     invertSide = determineInverseSide(); //[I-S]LN=14;[I-E]
+   } //[I-S]LN=15;[I-E]
+    //[I-S]LN=16;[I-E]
+   /// Repeat every frame //[I-S]LN=17;[I-E]
+   @Override //[I-S]LN=18;[I-E]
+   public void posWheelPhysics() {  //[I-S]LN=19;[I-E]
+     if(vw == null) return; //[I-S]LN=20;[I-E]
+     float traveledPercentage = vw.getSuspensionTravelPercentage(); //[I-S]LN=21;[I-E]
+     float restLength = vw.getSuspensionRestLength(); //[I-S]LN=22;[I-E]
+    //[I-S]LN=23;[I-E]
+     float applyCamber = 0; //[I-S]LN=24;[I-E]
+     if (traveledPercentage >= restLength - upDeadZone && traveledPercentage <= restLength + downDeadZone) { //[I-S]LN=25;[I-E]
+       applyCamber = restCamber; //[I-S]LN=26;[I-E]
+     } else if (traveledPercentage < restLength - upDeadZone) { //[I-S]LN=27;[I-E]
+       float rll = restLength - upDeadZone; //[I-S]LN=28;[I-E]
+       float range = traveledPercentage / rll; //[I-S]LN=29;[I-E]
+       range = 1f - range; //[I-S]LN=30;[I-E]
+       applyCamber = -range * upCamber; //[I-S]LN=31;[I-E]
+     } else if (traveledPercentage > restLength + downDeadZone) { //[I-S]LN=32;[I-E]
+       float rll = restLength + downDeadZone; //[I-S]LN=33;[I-E]
+       float range = (traveledPercentage - rll) / (1f - rll); //[I-S]LN=34;[I-E]
+       applyCamber = range * downCamber; //[I-S]LN=35;[I-E]
+     } //[I-S]LN=36;[I-E]
+    //[I-S]LN=37;[I-E]
+     if (invertSide) { //[I-S]LN=38;[I-E]
+       applyCamber *= -1f; //[I-S]LN=39;[I-E]
+     } //[I-S]LN=40;[I-E]
+    //[I-S]LN=41;[I-E]
+     vw.setCamber(applyCamber); //[I-S]LN=42;[I-E]
+   } //[I-S]LN=43;[I-E]
+    //[I-S]LN=44;[I-E]
+   /* TODO: reduce ram usage */ //[I-S]LN=45;[I-E]
+   public boolean determineInverseSide() { //[I-S]LN=46;[I-E]
+     Matrix4 parentMatrix = new Matrix4(); //[I-S]LN=47;[I-E]
+parentMatrix.set(myObject.getMainParent().getGlobalMatrix()); //[I-S]LN=48;[I-E]
+     parentMatrix = parentMatrix.inverse(); //[I-S]LN=49;[I-E]
+    //[I-S]LN=50;[I-E]
+     Matrix4 myMatrix = new Matrix4(); //[I-S]LN=51;[I-E]
+     myMatrix.set(myObject.getGlobalMatrix()); //[I-S]LN=52;[I-E]
+     myMatrix = parentMatrix.mul(myMatrix); //[I-S]LN=53;[I-E]
+    //[I-S]LN=54;[I-E]
+     if (myMatrix.getTranslation().getX() >= 0) { //[I-S]LN=55;[I-E]
+       return true; //[I-S]LN=56;[I-E]
+     } //[I-S]LN=57;[I-E]
+     return false; //[I-S]LN=58;[I-E]
+   } //[I-S]LN=59;[I-E]
+}
