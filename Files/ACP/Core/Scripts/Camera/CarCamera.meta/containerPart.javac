@@ -1,0 +1,92 @@
+package JAVARuntime;
+
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
+import java.util.concurrent.locks.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import java.util.zip.*;
+import java.text.*;
+import java.net.*;
+import java.math.*;
+import java.io.*;
+import java.nio.*;
+import java.time.*;
+import java.time.chrono.*;
+import java.time.format.*;
+import java.time.temporal.*;
+import java.time.zone.*;
+
+
+
+public class _JContainer{}
+
+//C-R:CarCamera
+class CarCamera extends Component {
+   /* @Author ITsMagic */ //[I-S]LN=0;[I-E]
+    //[I-S]LN=1;[I-E]
+   @AutoWired //[I-S]LN=2;[I-E]
+   private SmoothCameraFollow scf; //[I-S]LN=3;[I-E]
+   @AutoWired //[I-S]LN=4;[I-E]
+   private OrbitalCameraFollow ocf; //[I-S]LN=5;[I-E]
+    //[I-S]LN=6;[I-E]
+   /// Run only once //[I-S]LN=7;[I-E]
+public    void start() {} //[I-S]LN=8;[I-E]
+    //[I-S]LN=9;[I-E]
+   /// Repeat every frame //[I-S]LN=10;[I-E]
+public    void repeat() { //[I-S]LN=11;[I-E]
+     SpatialObject target = findTarget(); //[I-S]LN=12;[I-E]
+     if (target != null) { //[I-S]LN=13;[I-E]
+if (!target.isEnabled()) { //[I-S]LN=14;[I-E]
+         target = null; //[I-S]LN=15;[I-E]
+       } else { //[I-S]LN=16;[I-E]
+         CarMotor cm = target.findComponent(CarMotor.class); //[I-S]LN=17;[I-E]
+         if (cm == null || !cm.engineOn) { //[I-S]LN=18;[I-E]
+           target = null; //[I-S]LN=19;[I-E]
+         } //[I-S]LN=20;[I-E]
+       } //[I-S]LN=21;[I-E]
+     } //[I-S]LN=22;[I-E]
+    //[I-S]LN=23;[I-E]
+     // find a new car to attach to smooth camera follower //[I-S]LN=24;[I-E]
+     if (target == null) { //[I-S]LN=25;[I-E]
+       List<Component> cms = WorldController.listAllComponents(CarMotor.class); //[I-S]LN=26;[I-E]
+       for (int x = 0; x < cms.size(); x++) { //[I-S]LN=27;[I-E]
+         CarMotor cm = (CarMotor) cms.get(x); //[I-S]LN=28;[I-E]
+         if (cm.engineOn) { //[I-S]LN=29;[I-E]
+           target = cm.myObject; //[I-S]LN=30;[I-E]
+           CarCameraSettings ccs = target.findComponent(CarCameraSettings.class); //[I-S]LN=31;[I-E]
+           if (ccs != null) { //[I-S]LN=32;[I-E]
+if (scf != null && scf.isEnabled()) { //[I-S]LN=33;[I-E]
+               scf.setDistance(ccs.distance); //[I-S]LN=34;[I-E]
+               scf.setHeight(ccs.height); //[I-S]LN=35;[I-E]
+} else if (ocf != null && ocf.isEnabled()) { //[I-S]LN=36;[I-E]
+               ocf.setDistance(ccs.distance); //[I-S]LN=37;[I-E]
+               ocf.setHeight(ccs.height); //[I-S]LN=38;[I-E]
+             }  //[I-S]LN=39;[I-E]
+           } //[I-S]LN=40;[I-E]
+           setTarget(target); //[I-S]LN=41;[I-E]
+           break; //[I-S]LN=42;[I-E]
+         } //[I-S]LN=43;[I-E]
+       } //[I-S]LN=44;[I-E]
+     } //[I-S]LN=45;[I-E]
+   } //[I-S]LN=46;[I-E]
+    //[I-S]LN=47;[I-E]
+   SpatialObject findTarget() { //[I-S]LN=48;[I-E]
+if (scf != null && scf.isEnabled()) { //[I-S]LN=49;[I-E]
+return scf.getTarget(); //[I-S]LN=50;[I-E]
+} else if (ocf != null && ocf.isEnabled()) { //[I-S]LN=51;[I-E]
+return ocf.getTarget(); //[I-S]LN=52;[I-E]
+     } //[I-S]LN=53;[I-E]
+     return null; //[I-S]LN=54;[I-E]
+   } //[I-S]LN=55;[I-E]
+    //[I-S]LN=56;[I-E]
+   void setTarget(SpatialObject o) { //[I-S]LN=57;[I-E]
+if (scf != null && scf.isEnabled()) { //[I-S]LN=58;[I-E]
+       scf.setTarget(o); //[I-S]LN=59;[I-E]
+} else if (ocf != null && ocf.isEnabled()) { //[I-S]LN=60;[I-E]
+       ocf.setTarget(o); //[I-S]LN=61;[I-E]
+     } //[I-S]LN=62;[I-E]
+   } //[I-S]LN=63;[I-E]
+}
