@@ -1,0 +1,8 @@
+interface ICarMotor{ //[I-S]LN=0;[I-E]
+    public void addWheel(ICarWheel v); //[I-S]LN=1;[I-E]
+    public void setSteer(float v); //[I-S]LN=2;[I-E]
+    public void setAceleration(float v); //[I-S]LN=3;[I-E]
+    public float getSpeed(); //[I-S]LN=4;[I-E]
+    public void setHandBrake(float v); //[I-S]LN=5;[I-E]
+    public float getSpeedPercentage(); //[I-S]LN=6;[I-E]
+} //[I-S]LN=7;[I-E]
